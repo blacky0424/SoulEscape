@@ -4,13 +4,18 @@ using UnityEngine;
 
 public class GameOverScene : MonoBehaviour {
 
-	void Start () {
+    AudioSource audio;
+
+    void Start () {
         FadeManager.Instance.fadeColor = Color.black;
         FadeManager.Instance.FadeIn();
+
+        audio = GetComponent<AudioSource>();
     }
 
     public void LoadTitleScene()
     {
+        audio.PlayOneShot(audio.clip);
         ScoreManager.Instance.ResetScore();
         FadeManager.Instance.fadeColor = Color.black;
         SceneManager.Instance.LoadScene(SceneManager.Title_Scene);
@@ -18,6 +23,7 @@ public class GameOverScene : MonoBehaviour {
 
     public void LoadSelectScene()
     {
+        audio.PlayOneShot(audio.clip);
         ScoreManager.Instance.ResetScore();
         FadeManager.Instance.fadeColor = Color.black;
         SceneManager.Instance.LoadScene(SceneManager.Select_Scene);

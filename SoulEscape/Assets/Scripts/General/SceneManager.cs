@@ -55,6 +55,7 @@ public class SceneManager : SingletonMonoBehaviour<SceneManager>
     public const string Stage3_Scene = "Stage3";
     public const string Result_Scene = "Result";
     public const string GameOver_Scene = "GameOver";
+    public const string GameClear_Scene = "GameClear";
 
     const string Loading = "IsLoading";
 

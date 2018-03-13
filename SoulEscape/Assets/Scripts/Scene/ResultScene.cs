@@ -5,7 +5,10 @@ using UnityEngine.UI;
 
 public class ResultScene : SingletonMonoBehaviour<ResultScene>
 {
-
+    [SerializeField]
+    GameObject titleButton;
+    [SerializeField]
+    GameObject selectButton;
     int score;
     [SerializeField]
     Text scoreText;
@@ -18,11 +21,13 @@ public class ResultScene : SingletonMonoBehaviour<ResultScene>
     const string place2 = "無事三途の川を渡り切りました";
     const string place3 = "無事に天国へたどり着きました";
 
+    AudioSource audio;
 
     void Start () {
         FadeManager.Instance.FadeIn();
         score = ScoreManager.Instance.Score;
         stage = ScoreManager.Instance.Stage;
+        audio = GetComponent<AudioSource>();
         switch (stage)
         {
             case 1:
@@ -33,6 +38,9 @@ public class ResultScene : SingletonMonoBehaviour<ResultScene>
                 break;
             case 3:
                 place = place3;
+                titleButton.SetActive(false);
+                selectButton.SetActive(false);
+                Invoke(((System.Action)LoadGameClearScene).Method.Name, 3.0f);
                 break;
         }
     }
@@ -44,6 +52,7 @@ public class ResultScene : SingletonMonoBehaviour<ResultScene>
 
     public void LoadTitleScene()
     {
+        audio.PlayOneShot(audio.clip);
         ScoreManager.Instance.ResetScore();
         FadeManager.Instance.fadeColor = Color.black;
         SceneManager.Instance.LoadScene(SceneManager.Title_Scene);
@@ -51,8 +60,16 @@ public class ResultScene : SingletonMonoBehaviour<ResultScene>
 
     public void LoadSelectScene()
     {
+        audio.PlayOneShot(audio.clip);
         ScoreManager.Instance.ResetScore();
         FadeManager.Instance.fadeColor = Color.black;
         SceneManager.Instance.LoadScene(SceneManager.Select_Scene);
+    }
+
+    void LoadGameClearScene()
+    {
+        FadeManager.Instance.fadeColor = Color.white;
+        FadeManager.Instance.FadeOut();
+        SceneManager.Instance.LoadScene(SceneManager.GameClear_Scene);
     }
 }

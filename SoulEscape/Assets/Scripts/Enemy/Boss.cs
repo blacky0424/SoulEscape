@@ -64,6 +64,7 @@ public class Boss : MonoBehaviour {
         {
             hpGage.gameObject.SetActive(false);
             GameScene.Instance.ScoreUp(scorePoint);
+            GameScene.Instance.PlaySound(GameScene.Instance.destroyEnemy);
             Destroy(gameObject);
         }
     }

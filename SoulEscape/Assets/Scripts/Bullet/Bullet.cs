@@ -86,6 +86,7 @@ public class Bullet : MonoBehaviour
                 default:
                     break;
             }
+            GameScene.Instance.PlaySound(GameScene.Instance.destroyBullet);
         }
     }
 

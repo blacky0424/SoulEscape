@@ -145,6 +145,8 @@ public class Player : MonoBehaviour {
         {
             if (playerBulletsAlpha[i].fillAmount >= 1.0f)
             {
+                GameScene.Instance.PlaySound(GameScene.Instance.bulletFire);
+
                 Vector2 pos = new Vector2(transform.position.x + 1.0f, transform.position.y);
                 int j;
                 //非表示になっている弾があれば再利用

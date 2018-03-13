@@ -73,8 +73,6 @@ public class Enma : Boss {
         bulletTimer = 0;
         //生成時間の決定
         bulletTime = Random.Range(3.0f, 8.0f);
-        //生成位置の決定
-        Vector2 pos = transform.position;
         int i = 0;
         //非表示になっている弾があれば再利用
         for (i = 0; i < bulletbox.Count; i++)
@@ -83,7 +81,6 @@ public class Enma : Boss {
             if (!b.activeSelf)
             {
                 b.SetActive(true);
-                b.transform.position = pos;
                 break;
             }
         }
@@ -92,7 +89,7 @@ public class Enma : Boss {
         if (bulletbox.Count == 0 || i == bulletbox.Count)
         {
             //whiteBullet生成
-            GameObject b = Instantiate(bullet, pos, Quaternion.identity);
+            GameObject b = Instantiate(bullet, transform.position, Quaternion.identity);
             bulletbox.Add(b);
         }
     }

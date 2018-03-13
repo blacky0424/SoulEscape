@@ -26,6 +26,12 @@ public class GameScene : SingletonMonoBehaviour<GameScene> {
     [SerializeField]
     GameObject boss;
 
+    AudioSource audio;
+    public AudioClip destroyBullet;
+    public AudioClip destroyEnemy;
+    public AudioClip bulletFire;
+    public AudioClip playerDamaged;
+
     //HP
     public static int hp;
     //最大体力
@@ -56,7 +62,7 @@ public class GameScene : SingletonMonoBehaviour<GameScene> {
     //クリアまでの距離
     [SerializeField]
     Text distanceText;
-    const string distanceString1 = "まであと　";
+    const string distanceString1 = "目的地まで残り　";
     const string distanceString2 = " m";
     [SerializeField]
     float distance;
@@ -74,6 +80,7 @@ public class GameScene : SingletonMonoBehaviour<GameScene> {
 
     void Start () {
         state = GameState.Game;
+        audio = GetComponent<AudioSource>();
 
         //最初に流れる敵弾の情報
         backFlowFirstPosX = transform.position.x;
@@ -156,6 +163,7 @@ public class GameScene : SingletonMonoBehaviour<GameScene> {
         {
             if (hp <= 0)
             {
+                GameScene.Instance.PlaySound(GameScene.Instance.destroyEnemy);
                 Destroy(player.gameObject);
                 state = GameState.GameOver;
                 Invoke(((System.Action)LoadGameOver).Method.Name, 2.0f);
@@ -224,6 +232,7 @@ public class GameScene : SingletonMonoBehaviour<GameScene> {
     /// <param name="damage"></param>
     public void HpChange(int damage)
     {
+        PlaySound(playerDamaged);
         hp -= damage;
         hpText.text = hp.ToString();
     }
@@ -244,5 +253,10 @@ public class GameScene : SingletonMonoBehaviour<GameScene> {
         {
             return player;
         }
+    }
+
+    public void PlaySound(AudioClip clip)
+    {
+        audio.PlayOneShot(clip);
     }
 }
