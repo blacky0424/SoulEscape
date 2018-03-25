@@ -21,13 +21,10 @@ public class ResultScene : SingletonMonoBehaviour<ResultScene>
     const string place2 = "無事三途の川を渡り切りました";
     const string place3 = "無事に天国へたどり着きました";
 
-    AudioSource audio;
-
     void Start () {
         FadeManager.Instance.FadeIn();
         score = ScoreManager.Instance.Score;
         stage = ScoreManager.Instance.Stage;
-        audio = GetComponent<AudioSource>();
         switch (stage)
         {
             case 1:
@@ -52,18 +49,24 @@ public class ResultScene : SingletonMonoBehaviour<ResultScene>
 
     public void LoadTitleScene()
     {
-        audio.PlayOneShot(audio.clip);
-        ScoreManager.Instance.ResetScore();
-        FadeManager.Instance.fadeColor = Color.black;
-        SceneManager.Instance.LoadScene(SceneManager.Title_Scene);
+        if (!FadeManager.Instance.IsFade())
+        {
+            SoundManager.Instance.PlaySE(SEName.PushButton);
+            ScoreManager.Instance.ResetScore();
+            FadeManager.Instance.fadeColor = Color.black;
+            SceneManager.Instance.LoadScene(SceneManager.Title_Scene);
+        }
     }
 
     public void LoadSelectScene()
     {
-        audio.PlayOneShot(audio.clip);
-        ScoreManager.Instance.ResetScore();
-        FadeManager.Instance.fadeColor = Color.black;
-        SceneManager.Instance.LoadScene(SceneManager.Select_Scene);
+        if (!FadeManager.Instance.IsFade())
+        {
+            SoundManager.Instance.PlaySE(SEName.PushButton);
+            ScoreManager.Instance.ResetScore();
+            FadeManager.Instance.fadeColor = Color.black;
+            SceneManager.Instance.LoadScene(SceneManager.Select_Scene);
+        }
     }
 
     void LoadGameClearScene()

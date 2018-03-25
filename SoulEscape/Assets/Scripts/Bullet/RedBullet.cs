@@ -7,24 +7,32 @@ using UnityEngine;
 /// </summary>
 public class RedBullet : Bullet {
 
-    //円の大きさ
-    float radius;
+    Transform bossPos;
+    //円運動をする起点となる位置
+    Vector3 basePos;
+    //移動速度
+    float speed;
+    //周る大きさ
+    float width;
 
     private void OnEnable()
     {
-        radius = Random.Range(1, 4);
+        bossPos = FindObjectOfType<Boss>().transform;
+        basePos = transform.position;
+
+        speed = Random.Range(1.0f, 5.0f);
+        width = Random.Range(1.0f, 3.0f);
     }
 
     protected override void Update()
     {
         base.Update();
-        float x = Mathf.Cos(Time.time);
-        float y = Mathf.Sin(Time.time);
-        float z = 0f;
+        float x = basePos.x + Mathf.Cos(Time.time * speed) * width;
+        float y = basePos.y + Mathf.Sin(Time.time * speed) * width;
 
-        transform.position = new Vector3(x, y, z) * radius;
+        transform.position = Vector3.Lerp(transform.position, new Vector3(x, y, 0), 1.0f);
 
-        if(GameScene.Instance.state == GameState.Clear)
+        if (GameScene.Instance.state == GameState.Clear)
         {
             this.gameObject.SetActive(false);
         }

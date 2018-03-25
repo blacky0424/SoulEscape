@@ -17,13 +17,9 @@ public class SingletonMonoBehaviour<T> : MonoBehaviour where T: SingletonMonoBeh
 
             instance = (T)FindObjectOfType(typeof(T));
 
-            if(instance == null)
-            {
-
-            }
-
             return instance;
         }
     }
+
 
 }

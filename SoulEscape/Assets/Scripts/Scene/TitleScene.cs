@@ -5,39 +5,40 @@ using UnityEngine;
 public class TitleScene : SingletonMonoBehaviour<TitleScene> {
 
     [SerializeField]
-    GameObject t;
-    AudioSource audio;
-
-    float timer;
+    GameObject startText;
+    float blinkTimer;
+    //タップされたかどうか
+    bool isTap;
 
     void Start () {
         FadeManager.Instance.fadeColor = Color.black;
         FadeManager.Instance.FadeIn();
 
-        audio = GetComponent<AudioSource>();
+        isTap = false;
     }
 	
 	void Update () {
-        if (Input.GetMouseButtonDown(0))
+        if (Input.GetMouseButtonDown(0) && !FadeManager.Instance.IsFade() && !isTap)
         {
-            audio.PlayOneShot(audio.clip);
+            isTap = true;
+            SoundManager.Instance.PlaySE(SEName.TapStart);
             SceneManager.Instance.LoadScene(SceneManager.Select_Scene);
         }
 
-        if (timer > 1.0f)
+        //TapToStartテキストの点滅
+        if (blinkTimer > 1.0f)
         {
-            timer = 0;
-            if (t.activeSelf)
+            blinkTimer = 0;
+            if (startText.activeSelf)
             {
-                t.SetActive(false);
+                startText.SetActive(false);
             }
             else
             {
-                t.SetActive(true);
+                startText.SetActive(true);
             }
         }
 
-        timer += Time.deltaTime;
+        blinkTimer += Time.deltaTime;
     }
-
 }

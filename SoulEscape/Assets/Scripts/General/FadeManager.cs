@@ -21,7 +21,7 @@ public class FadeManager : SingletonMonoBehaviour<FadeManager> {
 
     bool alert;
     int alertCount;
-    int a;
+    int bossFade;
 
     void Awake()
     {
@@ -29,7 +29,7 @@ public class FadeManager : SingletonMonoBehaviour<FadeManager> {
         fadeinSwitch = false;
         fadeoutSwitch = false;
         alert = false;
-        a = 0;
+        bossFade = 0;
         alertCount = 0;
     }
 
@@ -61,21 +61,21 @@ public class FadeManager : SingletonMonoBehaviour<FadeManager> {
         if (alert)
         {
             //画面が赤くなる
-            if(a > 0)
+            if(bossFade > 0)
             {
                 alpha += fadeSpeed;
-            }else if(a < 0)
+            }else if(bossFade < 0)
             {
                 alpha -= fadeSpeed;
             }
 
             if(alpha < 0)
             {
-                a = 1;
+                bossFade = 1;
                 alertCount++;
             }else if(alpha > 0.5f)
             {
-                a = -1;
+                bossFade = -1;
             }
             fadeImage.color = new Color(fadeColor.r, fadeColor.g, fadeColor.b, alpha);
 
@@ -84,7 +84,7 @@ public class FadeManager : SingletonMonoBehaviour<FadeManager> {
             {
                 alertCount = 0;
                 alert = false;
-                a = 0;
+                bossFade = 0;
             }
         }
     }
@@ -96,7 +96,7 @@ public class FadeManager : SingletonMonoBehaviour<FadeManager> {
     {
         fadeColor = Color.red;
         alert = true;
-        a = 1;
+        bossFade = 1;
     }
 
     /// <summary>
@@ -113,5 +113,16 @@ public class FadeManager : SingletonMonoBehaviour<FadeManager> {
     public void FadeIn()
     {
         fadeinSwitch = true;
+    }
+
+    //フェード中であるかどうか確認
+    public bool IsFade()
+    {
+        if (fadeinSwitch || fadeoutSwitch)
+        {
+            return true;
+        }
+
+        return false;
     }
 }
